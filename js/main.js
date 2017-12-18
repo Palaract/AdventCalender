@@ -5,75 +5,79 @@ window.onclick = function(event) {
     }
 }
 
-$( document ).ready(function() {
-  var date = new Date();
-  var day = date.getDate();
-  var month = date.getMonth() + 1;
-  var scrolled = false;
-  var timeDelay = 200;
+$(document).ready(function() {
+    var date = new Date();
+    var day = date.getDate();
+    var month = date.getMonth() + 1;
+    var scrolled = false;
+    var timeDelay = 200;
 
-  $(".debug").on('click', function(event) {
-    day=24;
-  });
-
-  //day=24; // uncomment to skip
-  // Only work in December
-  if(month === 12) {
-    // Loop through each calendar window
-    $("li").each( function( index ) {
-      var adventwindow = index + 1;
-      var item = $(this);
-      var cookieName = "door"+adventwindow;
-
-      // Add jiggle animation to current day window
-      if(adventwindow === day) {
-        $(this).addClass("current");
-        $(this).addClass("jiggle");
-      }
-
-      var image = getImage(adventwindow);
-      $(this).append(image);
-      $(this).children('img').addClass('preview');
-
-      if (adventwindow==24) {
-        $(this).children('.preview').css("width", 200); // Set new width
-        $(this).children('.preview').css("height", 275);  // Scale height based on ratio
-      } else {
-        $(this).children('.preview').css("width", 130);
-        $(this).children('.preview').css("height", 130);
-      }
-
-
-      //Open doors saved in cookies
-      if (Cookies.get(cookieName)=="open") {
-        $(this).children('.door').addClass('open')
-      }
-
-
-      // On clicking a window, toggle it open/closed and
-      // handle other things such as removing jiggle
-      $(this).on("click", function() {
-        if(adventwindow <= day) {
-          if ($(this).children('.door').hasClass("open")) {
-            $(this).children(".door").removeClass("open");
-            Cookies.set(cookieName, "closed", { expires: 0});
-          }else {
-            $(this).children(".door").addClass("open");
-            Cookies.set(cookieName, "open", { expires: 200});
-            $(".modal-content").html(image);
-            $(".modal").show();
-          }
-        }
-        $(this).removeClass("jiggle");
-      });
-
+    $(".debug").on('click', function(event) {
+        day = 24;
     });
 
-  }
+    //day=24; // uncomment to skip
+    // Only work in December
+    if (month === 12) {
+        // Loop through each calendar window
+        $("li").each(function(index) {
+            var adventwindow = index + 1;
+            var item = $(this);
+            var cookieName = "door" + adventwindow;
+
+            // Add jiggle animation to current day window
+            if (adventwindow === day) {
+                $(this).addClass("current");
+                $(this).addClass("jiggle");
+            }
+
+            var image = getImage(adventwindow);
+            $(this).append(image);
+            $(this).children('img').addClass('preview');
+
+            if (adventwindow == 24) {
+                $(this).children('.preview').css("width", 200); // Set new width
+                $(this).children('.preview').css("height", 275); // Scale height based on ratio
+            } else {
+                $(this).children('.preview').css("width", 130);
+                $(this).children('.preview').css("height", 130);
+            }
+
+
+            //Open doors saved in cookies
+            if (Cookies.get(cookieName) == "open") {
+                $(this).children('.door').addClass('open')
+            }
+
+
+            // On clicking a window, toggle it open/closed and
+            // handle other things such as removing jiggle
+            $(this).on("click", function() {
+                if (adventwindow <= day) {
+                    if ($(this).children('.door').hasClass("open")) {
+                        $(this).children(".door").removeClass("open");
+                        Cookies.set(cookieName, "closed", {
+                            expires: 0
+                        });
+                    } else {
+                        $(this).children(".door").addClass("open");
+                        Cookies.set(cookieName, "open", {
+                            expires: 200
+                        });
+                        $(".modal-content").html(image);
+                        $(".modal").show();
+                    }
+                }
+                $(this).removeClass("jiggle");
+            });
+
+        });
+
+    }
 
 });
 
-function getImage(day){
+function getImage(day) {
     var code = "";
 
     switch (day) {
